@@ -64,7 +64,7 @@ option(RES_CONFIG_DISABLE_EXHAUSTIVE_TESTS "Do not run exhaustive tests"        
 # init
 #***********************************************************************
 
-set(RES_VERSION_STRING "1.0.0") # this should match src/version.h
+set(RES_VERSION_STRING "1.0.1") # this should match src/version.h
 
 resize_cmake_include_hook(2_init)
 
