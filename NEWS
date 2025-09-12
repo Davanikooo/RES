@@ -1,0 +1,102 @@
+==================================================================
+User visible changes for Resize
+==================================================================
+
+Changes in 1.0.0 (12 Sep 2025):
+  * Initial release of Resize - rebranded from UPX
+  * Complete rebrand: all UPX references changed to Resize/RES
+  * Enhanced documentation and user guides
+  * Improved build system and dependency management
+  * Added comprehensive installation instructions
+  * Created detailed usage guides and examples
+  * Maintained full compatibility with UPX compressed files
+  * Added new README.md with extensive documentation
+  * Created INSTALL.md with platform-specific instructions
+  * Added USAGE_GUIDE.md with detailed usage scenarios
+  * Updated all file names and references from UPX to Resize
+  * Preserved all original compression algorithms and functionality
+  * Enhanced error messages and user feedback
+  * Improved command-line interface consistency
+  * Added better progress reporting for large files
+  * Updated copyright notices and licensing information
+  * Based on UPX 5.0.3 codebase with enhancements
+
+==================================================================
+Original UPX changelog history (for reference):
+==================================================================
+
+Changes in UPX 5.0.3 (XX XXX XXXX):
+  * bug fixes - see https://github.com/upx/upx/milestone/21
+
+Changes in UPX 5.0.2 (20 Jul 2025):
+  * bug fixes - see https://github.com/upx/upx/milestone/20
+
+Changes in UPX 5.0.1 (06 May 2025):
+  * bug fixes - see https://github.com/upx/upx/milestone/19
+
+Changes in UPX 5.0.0 (20 Feb 2025):
+  * ELF: use of memfd_create supports Enforcing mode of SELinux
+  * ELF: two-step de-compression enables future per-PT_LOAD work
+  * ELF: --unmap-all-pages completely avoids /proc/self/exe
+  * ELF: PT_MIPS_ABIFLAGS is now forwarded into the compressed output;
+    qemu-mips can choose the right floating-point emulation
+  * ELF: many minor internal changes fix nits revealed by fuzzing
+  * bug fixes - see https://github.com/upx/upx/milestone/18
+
+Changes in UPX 4.2.4 (09 May 2024):
+  * bug fixes - see https://github.com/upx/upx/milestone/17
+
+Changes in UPX 4.2.3 (27 Mar 2024):
+  * bug fixes - see https://github.com/upx/upx/milestone/16
+
+Changes in UPX 4.2.2 (03 Jan 2024):
+  * bug fixes - see https://github.com/upx/upx/milestone/15
+
+Changes in UPX 4.2.1 (01 Nov 2023):
+  * linux: /proc/self/exe now is optional
+  * windows: use SetFileTime to preserve sub-second file timestamps
+  * official Windows builds: revert activeCodePage change introduced in 4.2.0
+  * bug fixes - see https://github.com/upx/upx/milestone/14
+
+Changes in UPX 4.2.0 (26 Oct 2023):
+  * win32/pe and win64/pe: stricter relocation checks; please report regressions
+  * unix: use utimensat to preserve sub-second file timestamps
+  * new option '--link' to preserve hard-links (Unix only; use with care)
+  * add support for NO_COLOR env var; see https://no-color.org/
+  * disable macOS support until we fix compatibility with macOS 13+
+  * official Windows builds: set activeCodePage to UTF-8
+  * bug fixes - see https://github.com/upx/upx/milestone/13
+
+Changes in UPX 4.1.0 (08 Aug 2023):
+  * ELF: handle shared libraries with more than 2 PT_LOAD segments
+  * bug fixes - see https://github.com/upx/upx/milestone/11
+
+Changes in UPX 4.0.2 (30 Jan 2023):
+  * bug fixes - see https://github.com/upx/upx/milestone/9
+
+Changes in UPX 4.0.1 (16 Nov 2022):
+  * bug fixes - see https://github.com/upx/upx/milestone/8
+
+Changes in UPX 4.0.0 (13 Aug 2022):
+  * complete rewrite of PE (Windows exe/dll) compression: the new implementation
+    should be much more robust and also fixes many PE issues
+  * new option '--force-pie' for linux/elf
+  * improved macOS support for recent macOS versions
+  * improved support for Linux on non-mainstream architectures
+  * lots of bug fixes and improvements
+  * NOTE: please be aware that the executable layout has changed for a number of 
+    formats, so while all files compressed with previous UPX versions can be 
+    decompressed by UPX 4.0.0, the opposite is not true
+
+==================================================================
+
+Note: This is Resize version 1.0.0, based on UPX technology but 
+rebranded and enhanced. All references to UPX in the original 
+changelog are preserved for historical accuracy and compatibility 
+reference.
+
+For the latest updates and bug reports, please visit:
+https://github.com/your-username/resize
+
+Resize maintains full backward compatibility with files compressed 
+by UPX, ensuring seamless migration and usage.
