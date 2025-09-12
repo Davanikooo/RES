@@ -362,8 +362,8 @@ void show_help(int verbose) {
         con_fprintf(f, "\nType '%s --help' for more detailed help.\n", progname);
     }
 
-    con_fprintf(f, "\nUPX comes with ABSOLUTELY NO WARRANTY; "
-                   "for details visit https://upx.github.io\n");
+    con_fprintf(f, "\nResize comes with ABSOLUTELY NO WARRANTY; "
+                   "for details type 'resize -L'.\n");
 
 #if DEBUG || TESTING
     fg = con_fg(f, FG_RED);
@@ -407,7 +407,7 @@ void show_license(void) {
     );
     int fg = con_fg(f, FG_CYAN);
     con_fprintf(f,
-        "        https://upx.github.io\n"
+        "        https://github.com/WHO-AM-I-404/resize\n"
         "        https://www.oberhumer.com/opensource/upx/\n"
     );
     (void) con_fg(f, FG_ORANGE);

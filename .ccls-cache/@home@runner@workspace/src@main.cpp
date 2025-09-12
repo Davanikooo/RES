@@ -4,6 +4,8 @@
 
    Copyright (C) 2025 WHO-AM-I-404
    Based on UPX - Ultimate Packer for eXecutables
+   Copyright (C) 2025 WHO-AM-I-404
+   Based on UPX - Ultimate Packer for eXecutables
    Copyright (C) 1996-2025 Markus Franz Xaver Johannes Oberhumer
    Copyright (C) 1996-2025 Laszlo Molnar
    All Rights Reserved.
@@ -1331,7 +1333,20 @@ int upx_main(int argc, char *argv[]) may_throw {
         return exit_code;
     }
 
-    // Beta warning removed for 1.0.0 release - gitrev check not needed anymore
+    if (gitrev[0]) {
+        // also see RES_CONFIG_DISABLE_GITREV in CMakeLists.txt
+        bool warn_gitrev = true;
+        if (is_envvar_true("UPX_DEBUG_DISABLE_GITREV_WARNING"))
+            warn_gitrev = false;
+        if (warn_gitrev) {
+            FILE *f = stdout;
+            int fg = con_fg(f, FG_RED);
+            con_fprintf(
+                f, "\nWARNING: this is an unstable beta version - use for testing only! Really.\n");
+            fg = con_fg(f, fg);
+            UNUSED(fg);
+        }
+    }
 
     return exit_code;
 }
