@@ -31,3 +31,8 @@ cd build && echo \"=== Resize - File Compression Tool ===\" && echo \"Showing ve
 
 [workflows.workflow.metadata]
 outputType = "console"
+
+[deployment]
+deploymentTarget = "vm"
+run = ["bash", "-c", "cd build && echo 'Resize - File Compression Tool is ready!' && echo 'Use: ./resize [options] file...' && echo 'Example: ./resize --help' && echo 'Example: ./resize --version' && sleep infinity"]
+build = ["bash", "-c", "mkdir -p build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Release -DRES_CONFIG_DISABLE_WERROR=ON && make -j$(nproc)"]
