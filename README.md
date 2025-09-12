@@ -40,8 +40,8 @@
 ### Build dari Source
 ```bash
 # 1. Clone repository
-git clone https://github.com/who-am-i-404/resize
-cd resize
+git clone https://github.com/WHO-AM-I-404/RES
+cd RES
 
 # 2. Persiapkan direktori build
 mkdir -p build/release
