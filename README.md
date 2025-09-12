@@ -12,6 +12,12 @@
 
 ---
 
+
+📘 [Usage Guide](USAGE_GUIDE.md)
+
+
+
+---
 ## 🚀 Key Features
 
 - **High Compression Rate**: Reduces executable file size by 50-70%
