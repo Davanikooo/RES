@@ -8,46 +8,46 @@
     ██   ██ ███████ ███████ ██ ███████ ███████ 
 ```
 
-**Resize** adalah alat kompresi file yang canggih, berdasarkan teknologi UPX (Ultimate Packer for eXecutables) dengan peningkatan dan rebranding lengkap. Tool ini dirancang untuk mengompres file executable dengan tingkat kompresi tinggi sambil mempertahankan fungsionalitas penuh.
+**Resize** is an advanced file compression tool based on UPX (Ultimate Packer for eXecutables) technology with complete enhancements and rebranding. This tool is designed to compress executable files with high compression ratios while maintaining full functionality.
 
 ---
 
-## 🚀 Fitur Utama
+## 🚀 Key Features
 
-- **Kompresi Tingkat Tinggi**: Mengurangi ukuran file executable hingga 50-70%
-- **Self-Contained**: File yang dikompres berjalan mandiri tanpa ketergantungan eksternal
-- **Multi-Platform**: Mendukung berbagai format executable (Windows PE, Linux ELF, macOS Mach-O)
-- **Zero Runtime Overhead**: Tidak ada penalty performa saat runtime
-- **Reversible**: Dapat dikembalikan ke ukuran asli kapan saja
-- **Batch Processing**: Mendukung pemrosesan multiple file sekaligus
+- **High Compression Rate**: Reduces executable file size by 50-70%
+- **Self-Contained**: Compressed files run independently without external dependencies
+- **Multi-Platform**: Supports various executable formats (Windows PE, Linux ELF, macOS Mach-O)
+- **Zero Runtime Overhead**: No performance penalty at runtime
+- **Reversible**: Can be restored to original size at any time
+- **Batch Processing**: Supports processing multiple files simultaneously
 
-## 📋 Persyaratan Sistem
+## 📋 System Requirements
 
 ### Minimum Requirements:
 - **OS**: Linux (64-bit), Windows 10+, macOS 10.14+
-- **RAM**: 512 MB tersedia
-- **Storage**: 50 MB ruang kosong
-- **CPU**: Intel/AMD x64 atau ARM64
+- **RAM**: 512 MB available
+- **Storage**: 50 MB free space
+- **CPU**: Intel/AMD x64 or ARM64
 
-### Build Requirements (untuk kompilasi):
-- **Compiler**: GCC 8+ atau Clang 5+ dengan dukungan C++17 penuh
-- **CMake**: Versi 3.8 atau lebih baru
+### Build Requirements (for compilation):
+- **Compiler**: GCC 8+ or Clang 5+ with full C++17 support
+- **CMake**: Version 3.8 or newer
 - **Make**: GNU Make 4.0+
-- **Git**: Untuk cloning dependencies
+- **Git**: For cloning dependencies
 
-## 🛠️ Instalasi
+## 🛠️ Installation
 
-### Build dari Source
+### Build from Source
 ```bash
 # 1. Clone repository
 git clone https://github.com/WHO-AM-I-404/RES
 cd RES
 
-# 2. Persiapkan direktori build
+# 2. Prepare build directory
 mkdir -p build/release
 cd build/release
 
-# 3. Configure dengan CMake
+# 3. Configure with CMake
 cmake ../.. -DCMAKE_BUILD_TYPE=Release
 
 # 4. Compile
@@ -59,159 +59,159 @@ sudo make install
 
 ### Developer Build
 ```bash
-# Untuk developer yang ingin berkontribusi
+# For developers who want to contribute
 mkdir -p build/debug
 cd build/debug
 cmake ../.. -DCMAKE_BUILD_TYPE=Debug -DUSE_STRICT_DEFAULTS=ON
 make -j$(nproc)
 ```
 
-## 🎯 Penggunaan Dasar
+## 🎯 Basic Usage
 
-### Syntax Umum
+### General Syntax
 ```bash
 resize [OPTIONS] [FILE(S)]
 ```
 
-### Contoh Penggunaan Sederhana
+### Simple Usage Examples
 
-#### 1. Kompresi File Tunggal
+#### 1. Single File Compression
 ```bash
-# Kompresi basic (default level)
+# Basic compression (default level)
 resize myprogram.exe
 
-# Kompresi cepat (level 1)
+# Fast compression (level 1)
 resize -1 myprogram.exe
 
-# Kompresi terbaik (level 9)
+# Best compression (level 9)
 resize -9 myprogram.exe
 
-# Kompresi dengan tingkat maksimal
+# Compression with maximum level
 resize --best myprogram.exe
 
-# Kompresi dengan algoritma brute force (paling optimal)
+# Compression with brute force algorithm (most optimal)
 resize --brute myprogram.exe
 ```
 
-#### 2. Kompresi Multiple Files
+#### 2. Multiple Files Compression
 ```bash
-# Kompresi semua file .exe di direktori
+# Compress all .exe files in directory
 resize *.exe
 
-# Kompresi dengan pattern specific
+# Compression with specific pattern
 resize program1.exe program2.exe program3.exe
 ```
 
-#### 3. Decompresi (Restore)
+#### 3. Decompression (Restore)
 ```bash
-# Kembalikan ke ukuran asli
+# Restore to original size
 resize -d compressed_program.exe
 
-# Test integritas file
+# Test file integrity
 resize -t compressed_program.exe
 ```
 
-## ⚙️ Opsi dan Parameter Lengkap
+## ⚙️ Complete Options and Parameters
 
-### Opsi Kompresi
-| Opsi | Deskripsi | Contoh |
-|------|-----------|---------|
-| `-1` | Kompresi cepat (hasil kurang optimal) | `resize -1 app.exe` |
-| `-9` | Kompresi level tinggi | `resize -9 app.exe` |
-| `--best` | Kompresi terbaik (lambat tapi optimal) | `resize --best app.exe` |
-| `--brute` | Algoritma brute force (sangat lambat, hasil terbaik) | `resize --brute app.exe` |
-| `--ultra-brute` | Mode ultra kompresi (sangat lambat) | `resize --ultra-brute app.exe` |
-| `--lzma` | Gunakan algoritma LZMA | `resize --lzma app.exe` |
+### Compression Options
+| Option | Description | Example |
+|--------|-------------|---------|
+| `-1` | Fast compression (less optimal result) | `resize -1 app.exe` |
+| `-9` | High level compression | `resize -9 app.exe` |
+| `--best` | Best compression (slow but optimal) | `resize --best app.exe` |
+| `--brute` | Brute force algorithm (very slow, best result) | `resize --brute app.exe` |
+| `--ultra-brute` | Ultra compression mode (extremely slow) | `resize --ultra-brute app.exe` |
+| `--lzma` | Use LZMA algorithm | `resize --lzma app.exe` |
 
-### Opsi Output
-| Opsi | Deskripsi | Contoh |
-|------|-----------|---------|
+### Output Options
+| Option | Description | Example |
+|--------|-------------|---------|
 | `-oFILE` | Write output to FILE | `resize -oresult.exe input.exe` |
-| `-k, --backup` | Buat backup file asli | `resize -k app.exe` |
-| `--no-backup` | Jangan buat backup (default) | `resize --no-backup app.exe` |
+| `-k, --backup` | Create backup of original file | `resize -k app.exe` |
+| `--no-backup` | Don't create backup (default) | `resize --no-backup app.exe` |
 | `-f` | Force compression of suspicious files | `resize -f app.exe` |
 
-### Opsi Informasi
-| Opsi | Deskripsi | Contoh |
-|------|-----------|---------|
-| `-l` | Tampilkan info file yang dikompres | `resize -l app.exe` |
-| `-t` | Test integritas file | `resize -t app.exe` |
-| `-v` | Output detail | `resize -v app.exe` |
-| `-q` | Mode silent | `resize -q app.exe` |
-| `-V` | Tampilkan versi program | `resize -V` |
-| `-h` | Tampilkan bantuan | `resize -h` |
-| `-L` | Tampilkan lisensi | `resize -L` |
+### Information Options
+| Option | Description | Example |
+|--------|-------------|---------|
+| `-l` | Display compressed file info | `resize -l app.exe` |
+| `-t` | Test file integrity | `resize -t app.exe` |
+| `-v` | Detailed output | `resize -v app.exe` |
+| `-q` | Silent mode | `resize -q app.exe` |
+| `-V` | Show program version | `resize -V` |
+| `-h` | Show help | `resize -h` |
+| `-L` | Show license | `resize -L` |
 
-### Opsi Lanjutan
-| Opsi | Deskripsi | Contoh |
-|------|-----------|---------|
-| `--fileinfo` | Tampilkan parameter file yang dikompres | `resize --fileinfo app.exe` |
+### Advanced Options
+| Option | Description | Example |
+|--------|-------------|---------|
+| `--fileinfo` | Display compressed file parameters | `resize --fileinfo app.exe` |
 | `--overlay=copy` | Copy overlay data (default) | `resize --overlay=copy app.exe` |
 | `--overlay=strip` | Strip overlay data | `resize --overlay=strip app.exe` |
-| `--overlay=skip` | Skip file dengan overlay | `resize --overlay=skip app.exe` |
+| `--overlay=skip` | Skip files with overlay | `resize --overlay=skip app.exe` |
 | `--force-overwrite` | Force overwrite output files | `resize --force-overwrite app.exe` |
 | `--no-color` | Disable color output | `resize --no-color app.exe` |
 | `--mono` | Monochrome output | `resize --mono app.exe` |
 | `--color` | Enable color output | `resize --color app.exe` |
 | `--no-progress` | Disable progress display | `resize --no-progress app.exe` |
 
-### Opsi Windows PE
-| Opsi | Deskripsi | Contoh |
-|------|-----------|---------|
-| `--compress-exports=0` | Jangan kompres export section | `resize --compress-exports=0 app.exe` |
-| `--compress-exports=1` | Kompres export section (default) | `resize --compress-exports=1 app.exe` |
-| `--compress-icons=0` | Jangan kompres icons | `resize --compress-icons=0 app.exe` |
-| `--compress-icons=1` | Kompres kecuali first icon | `resize --compress-icons=1 app.exe` |
-| `--compress-icons=2` | Kompres kecuali first icon directory (default) | `resize --compress-icons=2 app.exe` |
-| `--compress-icons=3` | Kompres semua icons | `resize --compress-icons=3 app.exe` |
-| `--compress-resources=0` | Jangan kompres resources | `resize --compress-resources=0 app.exe` |
-| `--keep-resource=list` | Jangan kompres resource tertentu | `resize --keep-resource=list app.exe` |
-| `--strip-relocs=0` | Jangan strip relocations | `resize --strip-relocs=0 app.exe` |
+### Windows PE Options
+| Option | Description | Example |
+|--------|-------------|---------|
+| `--compress-exports=0` | Don't compress export section | `resize --compress-exports=0 app.exe` |
+| `--compress-exports=1` | Compress export section (default) | `resize --compress-exports=1 app.exe` |
+| `--compress-icons=0` | Don't compress icons | `resize --compress-icons=0 app.exe` |
+| `--compress-icons=1` | Compress except first icon | `resize --compress-icons=1 app.exe` |
+| `--compress-icons=2` | Compress except first icon directory (default) | `resize --compress-icons=2 app.exe` |
+| `--compress-icons=3` | Compress all icons | `resize --compress-icons=3 app.exe` |
+| `--compress-resources=0` | Don't compress resources | `resize --compress-resources=0 app.exe` |
+| `--keep-resource=list` | Don't compress specific resources | `resize --keep-resource=list app.exe` |
+| `--strip-relocs=0` | Don't strip relocations | `resize --strip-relocs=0 app.exe` |
 | `--strip-relocs=1` | Strip relocations (default) | `resize --strip-relocs=1 app.exe` |
 
-### Opsi Linux ELF
-| Opsi | Deskripsi | Contoh |
-|------|-----------|---------|
-| `--preserve-build-id` | Copy .gnu.note.build-id ke output | `resize --preserve-build-id app` |
-| `--catch-sigsegv` | Debug errors di hardware/decompressor | `resize --catch-sigsegv app` |
+### Linux ELF Options
+| Option | Description | Example |
+|--------|-------------|---------|
+| `--preserve-build-id` | Copy .gnu.note.build-id to output | `resize --preserve-build-id app` |
+| `--catch-sigsegv` | Debug errors in hardware/decompressor | `resize --catch-sigsegv app` |
 
-## 📚 Panduan Penggunaan Detail
+## 📚 Detailed Usage Guide
 
-### 🔧 Skenario Penggunaan Umum
+### 🔧 Common Usage Scenarios
 
-#### 1. Mengompres Aplikasi Desktop
+#### 1. Compressing Desktop Applications
 ```bash
-# Untuk aplikasi Windows
+# For Windows applications
 resize --best -k MyApp.exe
 
-# Untuk aplikasi Linux
+# For Linux applications
 resize --best -k ./myapp
 
-# Untuk aplikasi macOS
+# For macOS applications
 resize --best -k MyApp.app/Contents/MacOS/MyApp
 ```
 
-#### 2. Optimasi untuk Distribusi
+#### 2. Distribution Optimization
 ```bash
-# Kompresi untuk distribusi online (prioritas ukuran)
+# Compression for online distribution (size priority)
 resize --brute --compress-icons=3 --compress-exports=1 installer.exe
 
-# Kompresi untuk distribusi offline (balanced)
+# Compression for offline distribution (balanced)
 resize --best -k setup.exe
 ```
 
-#### 3. Batch Processing untuk Developer
+#### 3. Batch Processing for Developers
 ```bash
-# Kompresi semua executable dalam project
+# Compress all executables in project
 find . -name "*.exe" -exec resize --best {} \;
 
-# Kompresi dengan filter size minimum
+# Compression with minimum size filter
 find . -name "*.exe" -size +1M -exec resize --brute {} \;
 ```
 
 #### 4. CI/CD Integration
 ```bash
-# Script untuk pipeline
+# Script for pipeline
 #!/bin/bash
 for file in dist/*.exe; do
     if [ -f "$file" ]; then
@@ -233,7 +233,7 @@ done
 # Level 1-9 (1=fastest, 9=best)
 resize -9 app.exe
 
-# Gunakan algoritma LZMA
+# Use LZMA algorithm
 resize --lzma app.exe
 ```
 
@@ -254,14 +254,14 @@ resize --best ./app
 
 #### 3. Security Considerations
 ```bash
-# Test file setelah kompresi
+# Test file after compression
 resize --best app.exe && resize -t app.exe
 
 # Preserve overlay data (default)
 resize --overlay=copy app.exe
 ```
 
-## 📊 Performance dan Statistik
+## 📊 Performance and Statistics
 
 ### Estimated Compression Rates:
 *Results may vary depending on executable type, content, and system*
@@ -279,11 +279,11 @@ resize --overlay=copy app.exe
 
 ## 🔍 Troubleshooting
 
-### Error Messages dan Solusi
+### Error Messages and Solutions
 
 #### "Cannot pack: file is already packed"
 ```bash
-# File sudah dikompres, decompress dulu
+# File is already compressed, decompress first
 resize -d packed_file.exe
 resize --best packed_file.exe
 ```
@@ -313,18 +313,18 @@ resize -1 app.exe
 
 ### Recovery Commands
 ```bash
-# Jika kompresi gagal dan file rusak
+# If compression fails and file is corrupted
 cp app.exe.backup app.exe       # Restore from backup
 
 # Test file integrity
 resize -t app.exe              # Verify compressed file
 ```
 
-## 🧪 Testing dan Verification
+## 🧪 Testing and Verification
 
 ### Pre-compression Checks
 ```bash
-# Verify file sebelum kompresi
+# Verify file before compression
 file myapp.exe
 ldd myapp                      # Check dependencies (Linux)
 otool -L myapp                 # Check dependencies (macOS)
@@ -343,7 +343,7 @@ resize -t compressed_app.exe
 time ./compressed_app benchmark
 ```
 
-## 🔧 Build dari Source Code
+## 🔧 Build from Source Code
 
 ### Prerequisites Check
 ```bash
@@ -360,13 +360,13 @@ pkg-config --list-all | grep -E "(zlib|bzip2)"
 
 ### Detailed Build Process
 ```bash
-# 1. Persiapan environment
+# 1. Environment preparation
 export CC=clang
 export CXX=clang++
 export CFLAGS="-O3 -march=native"
 export CXXFLAGS="-O3 -march=native"
 
-# 2. Configure untuk production
+# 2. Configure for production
 mkdir -p build/production
 cd build/production
 cmake ../.. \
@@ -375,7 +375,7 @@ cmake ../.. \
     -DRES_CONFIG_DISABLE_WERROR=ON \
     -DRES_CONFIG_DISABLE_GITREV=OFF
 
-# 3. Build dengan optimasi maksimal
+# 3. Build with maximum optimization
 make -j$(nproc) VERBOSE=1
 
 # 4. Run tests
@@ -393,7 +393,7 @@ cmake ../.. -DCMAKE_BUILD_TYPE=Debug -DUSE_STRICT_DEFAULTS=ON
 # Static build (no dependencies)
 cmake ../.. -DBUILD_SHARED_LIBS=OFF -DCMAKE_EXE_LINKER_FLAGS="-static"
 
-# Cross-compile untuk Windows (dari Linux)
+# Cross-compile for Windows (from Linux)
 cmake ../.. -DCMAKE_TOOLCHAIN_FILE=mingw-w64.cmake
 ```
 
@@ -401,47 +401,47 @@ cmake ../.. -DCMAKE_TOOLCHAIN_FILE=mingw-w64.cmake
 
 ### Windows
 ```cmd
-REM Kompresi untuk Windows PE
+REM Compression for Windows PE
 resize.exe --best --compress-resources=0 MyApp.exe
 
-REM Kompresi dengan backup
+REM Compression with backup
 resize.exe -k MyApp.exe
 
-REM Handle overlay data (default adalah copy)
+REM Handle overlay data (default is copy)
 resize.exe --overlay=copy MyApp.exe
 ```
 
 ### Linux
 ```bash
-# Preserve build ID (untuk debugging)
+# Preserve build ID (for debugging)
 resize --preserve-build-id ./myapp
 
-# Kompresi ELF executable
+# Compress ELF executable
 resize --best ./myapp
 
-# Handle SIGSEGV untuk debugging
+# Handle SIGSEGV for debugging
 resize --catch-sigsegv ./myapp
 ```
 
 ### macOS
 ```bash
-# Kompresi macOS Mach-O binary (gunakan opsi umum)
+# Compress macOS Mach-O binary (use general options)
 resize --best ./MyApp
 
-# Kompresi dengan backup
+# Compression with backup
 resize -k ./MyApp
 
-# Untuk aplikasi bundle
+# For application bundle
 resize --best ./MyApp.app/Contents/MacOS/MyApp
 
-# Note: Tidak ada opsi khusus macOS, gunakan opsi umum
+# Note: No macOS-specific options, use general options
 ```
 
-## 🔄 Integration dengan Build Systems
+## 🔄 Integration with Build Systems
 
 ### Makefile Integration
 ```makefile
-# Tambahkan ke Makefile
+# Add to Makefile
 compress: $(TARGET)
         @echo "Compressing executable..."
         resize --best -k $(TARGET)
@@ -452,7 +452,7 @@ compress: $(TARGET)
 
 ### CMake Integration
 ```cmake
-# Tambahkan custom target
+# Add custom target
 add_custom_target(compress
     COMMAND resize --best -k $<TARGET_FILE:myapp>
     DEPENDS myapp
@@ -475,7 +475,7 @@ add_custom_target(compress
     path: dist/*.exe
 ```
 
-## 📈 Monitoring dan Logging
+## 📈 Monitoring and Logging
 
 ### Enable Detailed Logging
 ```bash
@@ -499,7 +499,7 @@ resize -t app.exe
 
 ### 1. Verification Workflow
 ```bash
-# Always verify setelah kompresi
+# Always verify after compression
 resize -t compressed_file.exe
 
 # Check hash integrity
@@ -547,14 +547,14 @@ for file in *.exe; do
 done
 ```
 
-## 📞 Support dan Kontribusi
+## 📞 Support and Contribution
 
-### Mendapatkan Bantuan
-- **Built-in Help**: `resize -h` untuk bantuan lengkap
-- **Version Info**: `resize -V` untuk informasi versi
-- **License**: `resize -L` untuk informasi lisensi
+### Getting Help
+- **Built-in Help**: `resize -h` for complete help
+- **Version Info**: `resize -V` for version information
+- **License**: `resize -L` for license information
 
-### Berkontribusi
+### Contributing
 ```bash
 # Clone repository
 git clone https://github.com/WHO-AM-I-404/RES
@@ -563,7 +563,7 @@ cd RES
 # Create feature branch
 git checkout -b feature/amazing-feature
 
-# Build dan test
+# Build and test
 mkdir -p build/release
 cd build/release
 cmake ../.. -DCMAKE_BUILD_TYPE=Release
@@ -589,9 +589,9 @@ cp hooks/pre-commit .git/hooks/
 chmod +x .git/hooks/pre-commit
 ```
 
-## 📄 License dan Copyright
+## 📄 License and Copyright
 
-**Resize** adalah software open source berdasarkan UPX dengan lisensi GPL v2+.
+**Resize** is open source software based on UPX with GPL v2+ license.
 
 ```
 Copyright (c) 2025 WHO-AM-I-404
@@ -607,9 +607,9 @@ the Free Software Foundation; either version 2 of the License, or
 
 ## 🎖️ Acknowledgments
 
-- **UPX Team**: Untuk teknologi dasar yang luar biasa
-- **Contributors**: Semua yang telah berkontribusi pada proyek ini
-- **Community**: Untuk feedback dan bug reports
+- **UPX Team**: For the amazing foundational technology
+- **Contributors**: Everyone who has contributed to this project
+- **Community**: For feedback and bug reports
 
 ---
 
