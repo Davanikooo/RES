@@ -69,8 +69,8 @@ pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake
 #### Step 1: Download Source Code
 ```bash
 # Clone repository
-git clone https://github.com/who-am-i-404/resize
-cd resize
+git clone https://github.com/WHO-AM-I-404/RES
+cd RES
 
 # Check struktur project
 ls -la
