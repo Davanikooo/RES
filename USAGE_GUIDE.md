@@ -1,50 +1,50 @@
-# 📖 Panduan Penggunaan Lengkap Resize
+# 📖 Complete Usage Guide for Resize
 
-## Daftar Isi
+## Table of Contents
 1. [Quick Start](#quick-start)
-2. [Instalasi Detail](#instalasi-detail)
+2. [Detailed Installation](#detailed-installation)
 3. [Command Line Interface](#command-line-interface)
-4. [Skenario Penggunaan](#skenario-penggunaan)
+4. [Usage Scenarios](#usage-scenarios)
 5. [Troubleshooting](#troubleshooting)
 6. [Best Practices](#best-practices)
 7. [Advanced Features](#advanced-features)
 
 ## Quick Start
 
-### Langkah 1: Verifikasi Instalasi
+### Step 1: Verify Installation
 ```bash
-# Check apakah resize sudah terinstall
+# Check if resize is installed
 which resize
 
-# Tampilkan versi
+# Show version
 resize -V
 
-# Tampilkan help
+# Show help
 resize -h
 ```
 
-### Langkah 2: Kompresi Pertama
+### Step 2: First Compression
 ```bash
-# Siapkan file test
+# Prepare test file
 cp /bin/ls test_program
 
-# Kompresi basic
+# Basic compression
 resize test_program
 
-# Check hasil
+# Check results
 ls -la test_program*
 ```
 
-### Langkah 3: Verifikasi Hasil
+### Step 3: Verify Results
 ```bash
-# Test file yang dikompres
+# Test compressed file
 ./test_program
 
-# Decompresi jika perlu
+# Decompress if needed
 resize -d test_program
 ```
 
-## Instalasi Detail
+## Detailed Installation
 
 ### Prerequisites
 ```bash
@@ -56,15 +56,15 @@ sudo apt install -y build-essential cmake git
 sudo yum groupinstall "Development Tools"
 sudo yum install cmake git
 
-# macOS (dengan Homebrew)
+# macOS (with Homebrew)
 brew install cmake git
 
-# Windows (dengan MinGW-w64)
-# Install MSYS2 dari https://www.msys2.org/
+# Windows (with MinGW-w64)
+# Install MSYS2 from https://www.msys2.org/
 pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake
 ```
 
-### Build dari Source - Langkah Demi Langkah
+### Build from Source - Step by Step
 
 #### Step 1: Download Source Code
 ```bash
@@ -72,32 +72,32 @@ pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake
 git clone https://github.com/WHO-AM-I-404/RES
 cd RES
 
-# Check struktur project
+# Check project structure
 ls -la
 ```
 
-#### Step 2: Persiapan Dependencies
+#### Step 2: Prepare Dependencies
 ```bash
 # Check vendor dependencies
 ls -la vendor/
 
-# Jika kosong, init submodules
+# If empty, init submodules
 git submodule update --init --recursive
 ```
 
 #### Step 3: Configure Build
 ```bash
-# Buat direktori build
+# Create build directory
 mkdir -p build/release
 cd build/release
 
-# Configure untuk release build
+# Configure for release build
 cmake ../.. \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=/usr/local \
     -DRES_CONFIG_DISABLE_WERROR=ON
 
-# Untuk debug build (optional)
+# For debug build (optional)
 mkdir -p ../debug
 cd ../debug
 cmake ../.. \
@@ -105,15 +105,15 @@ cmake ../.. \
     -DUSE_STRICT_DEFAULTS=ON
 ```
 
-#### Step 4: Kompilasi
+#### Step 4: Compile
 ```bash
-# Build (gunakan semua CPU cores)
+# Build (use all CPU cores)
 make -j$(nproc)
 
-# Atau dengan verbose output
+# Or with verbose output
 make -j$(nproc) VERBOSE=1
 
-# Check hasil build
+# Check build results
 ls -la resize
 file resize
 ```
@@ -137,7 +137,7 @@ ctest --output-on-failure
 # Install system-wide (optional)
 sudo make install
 
-# Atau copy manual
+# Or manual copy
 sudo cp resize /usr/local/bin/
 sudo chmod +x /usr/local/bin/resize
 
@@ -148,7 +148,7 @@ resize -V
 
 ## Command Line Interface
 
-### Syntax Lengkap
+### Complete Syntax
 ```
 resize [-123456789dlthVL] [-qvfk] [-oFILE] file..
 ```
@@ -157,46 +157,46 @@ resize [-123456789dlthVL] [-qvfk] [-oFILE] file..
 
 #### Basic Options
 ```bash
--v                   # Tampilkan output detail
--q                   # Mode silent (minimal output)
+-v                   # Show detailed output
+-q                   # Silent mode (minimal output)
 -f                   # Force compression of suspicious files
--V                   # Tampilkan versi program
--h                   # Tampilkan bantuan
--L                   # Tampilkan informasi lisensi
+-V                   # Show program version
+-h                   # Show help
+-L                   # Show license information
 ```
 
 #### Advanced Options
 ```bash
---lzma               # Gunakan algoritma LZMA
+--lzma               # Use LZMA algorithm
 --brute              # Brute force compression
---ultra-brute        # Ultra brute force (sangat lambat)
+--ultra-brute        # Ultra brute force (very slow)
 --overlay=copy       # Handle overlay data (copy/strip/skip)
 ```
 
-### Commands (Perintah Utama)
+### Commands (Main Commands)
 ```bash
-# Kompresi (default)
+# Compression (default)
 resize myapp.exe
 resize -9 myapp.exe              # Level 9 compression
 resize --best myapp.exe          # Best compression
 resize --brute myapp.exe         # Try all methods (slow)
 resize --ultra-brute myapp.exe   # Even more variants (very slow)
 
-# Decompresi
+# Decompression
 resize -d compressed_app.exe
 
-# Testing dan Info
+# Testing and Info
 resize -t compressed_app.exe     # Test compressed file
 resize -l compressed_app.exe     # List compressed file info
 resize --fileinfo compressed_app.exe  # Show parameters
 
-# Output ke file lain
+# Output to different file
 resize -ooutput.exe input.exe
 ```
 
 ### Compression Options
 
-#### Level Kompresi
+#### Compression Levels
 ```bash
 -1                   # Fastest compression (level 1)
 -9                   # High compression (level 9)
@@ -246,20 +246,19 @@ resize -ooutput.exe input.exe
 --force-overwrite       # Force overwrite of output files
 ```
 
-#### Notes
+#### Display Options
 ```bash
-# Additional display options
 --no-color              # Disable color output
 --mono                  # Monochrome output  
 --color                 # Enable color output
 --no-progress           # Disable progress display
 ```
 
-## Skenario Penggunaan
+## Usage Scenarios
 
 ### 1. Developer Workflow
 
-#### Kompresi Build Artifacts
+#### Compressing Build Artifacts
 ```bash
 #!/bin/bash
 # build_and_compress.sh
@@ -303,7 +302,7 @@ for exe in bin/*; do
             continue
         fi
         
-        # Test execution (jika ada --version flag)
+        # Test execution (if --version flag exists)
         if $exe --version >/dev/null 2>&1; then
             echo "✅ $exe works correctly"
         else
@@ -580,7 +579,7 @@ fi
 echo "=== Session Completed: $(date) ===" >> "$LOG_FILE"
 ```
 
-### 4. Integration dengan Package Managers
+### 4. Integration with Package Managers
 
 #### RPM Spec Integration
 ```spec
@@ -633,13 +632,13 @@ override_dh_auto_install:
         done
 
 override_dh_strip:
-        # Skip stripping untuk compressed binaries
+        # Skip stripping for compressed binaries
         dh_strip --exclude=usr/bin/
 ```
 
 ## Troubleshooting
 
-### Common Issues dan Solutions
+### Common Issues and Solutions
 
 #### 1. "Command not found: resize"
 ```bash
@@ -649,10 +648,10 @@ which resize
 # If not found, check PATH
 echo $PATH
 
-# Add to PATH jika perlu
+# Add to PATH if needed
 export PATH="/usr/local/bin:$PATH"
 
-# Atau install ulang
+# Or reinstall
 sudo make install
 ```
 
@@ -664,7 +663,7 @@ ls -la resize
 # Fix permissions
 chmod +x resize
 
-# Atau untuk system installation
+# Or for system installation
 sudo chmod +x /usr/local/bin/resize
 ```
 
@@ -674,15 +673,15 @@ sudo chmod +x /usr/local/bin/resize
 file myapp.exe
 
 # Supported formats: PE, ELF, Mach-O
-# If unsupported, convert atau gunakan tools lain
+# If unsupported, convert or use other tools
 ```
 
 #### 4. "Cannot pack: already packed"
 ```bash
-# File sudah dikompres, decompress dulu
+# File already compressed, decompress first
 resize -d myapp.exe
 
-# Lalu compress ulang jika perlu
+# Then compress again if needed
 resize --best myapp.exe
 ```
 
@@ -734,7 +733,6 @@ export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 #### Enable Debug Output
 ```bash
 # Verbose output
-# Verbose output
 resize -v myapp.exe
 
 # Analyze log
@@ -749,11 +747,11 @@ rm -rf build
 mkdir -p build/debug
 cd build/debug
 
-# Debug build dengan verbose
+# Debug build with verbose
 cmake ../.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_VERBOSE_MAKEFILE=ON
 make VERBOSE=1
 
-# Run dengan debugger
+# Run with debugger
 gdb ./resize
 (gdb) run --test /bin/ls
 ```
@@ -779,7 +777,7 @@ iostat 1
 # For very large files
 resize --best large_app.exe
 
-# Split compression untuk file sangat besar
+# Split compression for very large files
 split -b 100M large_app.exe large_app_part_
 for part in large_app_part_*; do
     resize --best "$part"
@@ -799,7 +797,7 @@ file myapp.exe
 # ✅ Test original file works
 ./myapp.exe --version
 
-# ✅ Check file size (apakah worth it untuk dikompresi)
+# ✅ Check file size (is it worth compressing)
 du -h myapp.exe
 
 # ✅ Check available space
@@ -808,16 +806,16 @@ df -h .
 
 ### 2. Compression Strategy
 ```bash
-# Untuk distribusi: prioritas size
+# For distribution: prioritize size
 resize --brute --compress-exports=1 myapp.exe
 
-# Untuk development: prioritas speed
+# For development: prioritize speed
 resize --fast myapp.exe
 
-# Untuk production: balanced
+# For production: balanced
 resize --best myapp.exe
 
-# Untuk archival: maximum compression
+# For archival: maximum compression
 resize --ultra-brute myapp.exe
 ```
 
@@ -863,14 +861,14 @@ LOG_FILE="/var/log/daily_compress.log"
 
 echo "=== Daily Compression: $(date) ===" >> "$LOG_FILE"
 
-# Find projects yang perlu dikompres
+# Find projects that need compression
 find "$PROJECTS_DIR" -name "*.exe" -o -name "bin/*" -executable | while read file; do
-    # Skip jika sudah dikompres
+    # Skip if already compressed
     if resize -t "$file" 2>/dev/null; then
         continue
     fi
     
-    # Skip file kecil (< 1MB)
+    # Skip small files (< 1MB)
     size=$(stat -f%z "$file" 2>/dev/null || stat -c%s "$file")
     if [ $size -lt 1048576 ]; then
         continue
@@ -1012,10 +1010,10 @@ resize --filter=optimization myapp.exe
 
 #### Client Mode
 ```bash
-# Compress menggunakan remote server
+# Compress using remote server
 resize --remote=compression.example.com:8080 myapp.exe
 
-# Dengan authentication
+# With authentication
 resize --remote=user:pass@compression.example.com:8080 myapp.exe
 
 # Batch remote compression
@@ -1066,4 +1064,4 @@ curl http://localhost:8080/stats/myapp.exe
 
 ---
 
-*Dokumentasi ini akan terus diperbarui seiring dengan pengembangan fitur-fitur baru Resize.*
+*This documentation will be continuously updated as new features are developed for Resize.*
