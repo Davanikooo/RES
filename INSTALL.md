@@ -1,22 +1,22 @@
-# 🚀 Panduan Instalasi Resize
+# 🚀 Resize Installation Guide
 
-## Daftar Isi
+## Table of Contents
 1. [Quick Install](#quick-install)
 2. [System Requirements](#system-requirements)
-3. [Build dari Source](#build-dari-source)
+3. [Build from Source](#build-from-source)
 4. [Platform-Specific Instructions](#platform-specific-instructions)
 5. [Post-Installation](#post-installation)
 6. [Troubleshooting](#troubleshooting)
 
-## Instalasi
+## Installation
 
-### Build dari Source (Satu-satunya Metode)
+### Build from Source (Only Method)
 ```bash
 # Clone repository
 git clone https://github.com/WHO-AM-I-404/RES
 cd RES
 
-# Build menggunakan CMake
+# Build using CMake
 mkdir -p build/release
 cd build/release
 cmake ../.. -DCMAKE_BUILD_TYPE=Release
@@ -26,7 +26,7 @@ make -j$(nproc)
 sudo make install
 ```
 
-**Note**: Saat ini tidak ada package manager support, pre-built binaries, atau install script. Satu-satunya cara untuk menggunakan resize adalah dengan build dari source code.
+**Note**: Currently there is no package manager support, pre-built binaries, or install script. The only way to use resize is by building from source code.
 
 ## System Requirements
 
@@ -36,12 +36,12 @@ sudo make install
 | OS | Linux (64-bit), Windows 10+, macOS 10.14+ |
 | RAM | 512 MB available |
 | Storage | 50 MB free space |
-| CPU | Intel/AMD x64 atau ARM64 |
+| CPU | Intel/AMD x64 or ARM64 |
 
 ### Recommended Requirements
 | Component | Recommendation |
 |-----------|----------------|
-| RAM | 2 GB atau lebih |
+| RAM | 2 GB or more |
 | Storage | 200 MB free space |
 | CPU | Multi-core processor |
 
@@ -54,7 +54,7 @@ sudo make install
 | Make | 4.0+ |
 | Git | 2.0+ |
 
-## Build dari Source
+## Build from Source
 
 ### Step 1: Install Dependencies
 
@@ -91,7 +91,7 @@ sudo dnf install cmake git pkgconfig zlib-devel bzip2-devel libzstd-devel
 sudo yum groupinstall "Development Tools"
 sudo yum install cmake git pkgconfig zlib-devel bzip2-devel
 
-# Enable EPEL untuk packages tambahan
+# Enable EPEL for additional packages
 sudo dnf install epel-release  # CentOS 8+
 sudo yum install epel-release  # CentOS 7
 ```
@@ -197,12 +197,12 @@ export CXX=aarch64-linux-gnu-g++
 export CFLAGS="-O3 -march=native -mtune=native"
 export CXXFLAGS="-O3 -march=native -mtune=native"
 
-# Debug flags (untuk development)
+# Debug flags (for development)
 export CFLAGS="-O0 -g3 -fsanitize=address"
 export CXXFLAGS="-O0 -g3 -fsanitize=address"
 ```
 
-### Step 4: Configure dengan CMake
+### Step 4: Configure with CMake
 
 #### Release Build (Production)
 ```bash
@@ -236,13 +236,13 @@ cmake ../.. \
     -DBUILD_SHARED_LIBS=OFF \
     -DCMAKE_EXE_LINKER_FLAGS="-static"
 
-# Cross-compile untuk Windows dari Linux
+# Cross-compile for Windows from Linux
 cmake ../.. \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_TOOLCHAIN_FILE=../cmake/mingw-w64.cmake \
     -DCMAKE_INSTALL_PREFIX=/usr/local/cross-tools/
 
-# Dengan custom prefix
+# With custom prefix
 cmake ../.. \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_INSTALL_PREFIX=$HOME/.local
@@ -252,16 +252,16 @@ cmake ../.. \
 
 #### Standard Build
 ```bash
-# Build dengan semua CPU cores
+# Build with all CPU cores
 make -j$(nproc)
 
-# Untuk macOS
+# For macOS
 make -j$(sysctl -n hw.ncpu)
 
 # Manual (single thread)
 make
 
-# Dengan verbose output
+# With verbose output
 make VERBOSE=1
 ```
 
@@ -270,10 +270,10 @@ make VERBOSE=1
 # Build specific target
 make resize
 
-# Build dengan timing info
+# Build with timing info
 time make -j$(nproc)
 
-# Build dengan progress
+# Build with progress
 make -j$(nproc) --progress=short
 
 # Clean build
@@ -284,7 +284,7 @@ make clean && make -j$(nproc)
 
 #### Basic Tests
 ```bash
-# Test binary exists dan executable
+# Test binary exists and is executable
 ls -la resize
 file resize
 
@@ -292,7 +292,7 @@ file resize
 ./resize -V
 ./resize -h
 
-# Test dengan file kecil
+# Test with small file
 echo "test" > test.txt
 ./resize test.txt
 ./resize -d test.txt
@@ -306,10 +306,10 @@ ctest --output-on-failure
 # Run specific tests
 ctest -R resize-version
 
-# Run tests dengan verbose
+# Run tests with verbose output
 ctest --output-on-failure --verbose
 
-# Run tests paralel
+# Run tests in parallel
 ctest -j$(nproc)
 ```
 
@@ -325,7 +325,7 @@ cp /bin/ls test_binary
 # Performance test
 time ./resize --brute /bin/bash
 
-# Memory test (jika valgrind installed)
+# Memory test (if valgrind is installed)
 valgrind --leak-check=full ./resize -t /bin/ls
 ```
 
@@ -347,7 +347,7 @@ resize -V
 cmake ../.. -DCMAKE_INSTALL_PREFIX=$HOME/.local
 make install
 
-# Add to PATH (tambahkan ke ~/.bashrc atau ~/.zshrc)
+# Add to PATH (add to ~/.bashrc or ~/.zshrc)
 export PATH="$HOME/.local/bin:$PATH"
 ```
 
@@ -376,7 +376,7 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install -y build-essential cmake git pkg-config \
     zlib1g-dev libbz2-dev libzstd-dev
 
-# Clone dan build
+# Clone and build
 git clone https://github.com/who-am-i-404/resize
 cd resize
 mkdir -p build/release && cd build/release
@@ -423,7 +423,7 @@ sudo make install
 
 #### Using MSYS2/MinGW-w64
 ```bash
-# Install MSYS2 dari https://www.msys2.org/
+# Install MSYS2 from https://www.msys2.org/
 
 # Update package database
 pacman -Syu
@@ -445,15 +445,15 @@ mingw32-make -j$(nproc)
 
 #### Using Visual Studio
 ```cmd
-REM Install Visual Studio Community 2019+ dengan C++ workload
-REM Install CMake dari https://cmake.org/
-REM Install Git dari https://git-scm.com/
+REM Install Visual Studio Community 2019+ with C++ workload
+REM Install CMake from https://cmake.org/
+REM Install Git from https://git-scm.com/
 
 REM Clone repository
 git clone https://github.com/who-am-i-404/resize
 cd resize
 
-REM Configure dan build
+REM Configure and build
 mkdir build\release
 cd build\release
 cmake ..\.. -G "Visual Studio 16 2019" -A x64
@@ -764,7 +764,7 @@ chmod +x resize
 sudo chmod +x /usr/local/bin/resize
 
 # Cannot access files
-# Check file permissions dan ownership
+# Check file permissions and ownership
 ls -la target_file
 sudo chown $USER:$USER target_file
 ```
@@ -845,4 +845,4 @@ otool -L resize >> diagnostic.txt  # macOS
 
 ---
 
-*Jika mengalami masalah yang tidak tercakup dalam dokumentasi ini, silakan buat issue di GitHub repository dengan informasi diagnostic lengkap.*
+*If you encounter issues not covered in this documentation, please create an issue on the GitHub repository with complete diagnostic information.*
