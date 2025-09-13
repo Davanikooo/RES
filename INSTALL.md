@@ -839,9 +839,9 @@ otool -L resize >> diagnostic.txt  # macOS
 ```
 
 #### Community Support
-- **GitHub Issues**: [Create new issue](https://github.com/your-username/resize/issues)
-- **Discussions**: [Community forum](https://github.com/your-username/resize/discussions)
-- **Documentation**: [Wiki](https://github.com/your-username/resize/wiki)
+- **GitHub Issues**: [Create new issue](https://github.com/WHO-AM-I-404/RES/issues)
+- **Discussions**: [Community forum](https://github.com/WHO-AM-I-404/RES/discussions)
+- **Documentation**: [Wiki](https://github.com/WHO-AM-I/RES/wiki)
 
 ---
 
