@@ -27,16 +27,16 @@
    Based on original work by:
    Markus F.X.J. Oberhumer <markus@oberhumer.com>
    Laszlo Molnar <ezerotven+github@gmail.com>
- */
+*/
 
 #include "conf.h"
 #include "file.h"
 
 /*************************************************************************
-// static file-related util functions; will throw on error
+// Static file-related utility functions (throw on error)
 **************************************************************************/
 
-/*static*/ void FileBase::chmod(const char *name, int mode) {
+void FileBase::chmod(const char *name, int mode) {
     assert(name != nullptr && name[0] != 0);
 #if HAVE_CHMOD
     if (::chmod(name, mode) != 0)
@@ -44,11 +44,10 @@
 #else
     UNUSED(name);
     UNUSED(mode);
-    // no error
 #endif
 }
 
-/*static*/ void FileBase::rename(const char *old_, const char *new_) {
+void FileBase::rename(const char *old_, const char *new_) {
 #if (ACC_OS_DOS32) && defined(__DJGPP__)
     if (::_rename(old_, new_) != 0)
 #else
@@ -57,9 +56,9 @@
         throwIOException("rename error", errno);
 }
 
-/*static*/ bool FileBase::unlink_noexcept(const char *name) noexcept {
+bool FileBase::unlink_noexcept(const char *name) noexcept {
     assert_noexcept(name != nullptr && name[0] != 0);
-    bool success = ::unlink(name) == 0;
+    bool success = (::unlink(name) == 0);
 #if HAVE_CHMOD
     if (!success)
         success = (::chmod(name, 0666) == 0 && ::unlink(name) == 0);
@@ -67,30 +66,30 @@
     return success;
 }
 
-/*static*/ void FileBase::unlink(const char *name) {
+void FileBase::unlink(const char *name) {
     if (!unlink_noexcept(name))
         throwIOException(name, errno);
 }
 
 /*************************************************************************
-// FileBase
+// FileBase class
 **************************************************************************/
 
 FileBase::~FileBase() may_throw {
-#if 0 && defined(__GNUC__) // debug
+#if 0 && defined(__GNUC__)
     if (isOpen())
         fprintf(stderr, "%s: %s\n", _name, __PRETTY_FUNCTION__);
 #endif
     if (std::uncaught_exceptions() == 0)
-        closex(); // may_throw
+        closex();
     else
-        close_noexcept(); // currently in exception unwinding, use noexcept variant
+        close_noexcept();
 }
 
 bool FileBase::do_sopen() {
-    if (_shflags < 0)
+    if (_shflags < 0) {
         _fd = ::open(_name, _flags, _mode);
-    else {
+    } else {
 #if (ACC_OS_DOS32) && defined(__DJGPP__)
         _fd = ::open(_name, _flags | _shflags, _mode);
 #elif (ACC_ARCH_M68K && ACC_OS_TOS && ACC_CC_GNUC) && defined(__MINT__)
@@ -101,8 +100,10 @@ bool FileBase::do_sopen() {
         throwInternalError("bad usage of do_sopen()");
 #endif
     }
+
     if (_fd < 0)
         return false;
+
     st.st_size = 0;
     if (::fstat(_fd, &st) != 0)
         throwIOException(_name, errno);
@@ -115,6 +116,7 @@ bool FileBase::close_noexcept() noexcept {
     if (isOpen() && _fd != STDIN_FILENO && _fd != STDOUT_FILENO && _fd != STDERR_FILENO)
         if (::close(_fd) == -1)
             ok = false;
+
     _fd = -1;
     _flags = 0;
     _mode = 0;
@@ -129,12 +131,12 @@ void FileBase::closex() may_throw {
         throwIOException("close failed", errno);
 }
 
-// Return value of ::seek is the resulting file offset (same as ::tell())
 upx_off_t FileBase::seek(upx_off_t off, int whence) {
     if (!isOpen())
         throwIOException("bad seek 1");
-    if (!mem_size_valid_bytes(off >= 0 ? off : -off)) // sanity check
+    if (!mem_size_valid_bytes(off >= 0 ? off : -off))
         throwIOException("bad seek");
+
     if (whence == SEEK_SET) {
         if (off < 0)
             throwIOException("bad seek 2");
@@ -144,12 +146,14 @@ upx_off_t FileBase::seek(upx_off_t off, int whence) {
             throwIOException("bad seek 3");
         off += _offset + _length;
         whence = SEEK_SET;
-    } else if (whence == SEEK_CUR) {
-    } else
+    } else if (whence != SEEK_CUR) {
         throwInternalError("bad seek: whence");
+    }
+
     upx_off_t l = ::lseek(_fd, off, whence);
     if (l < 0)
         throwIOException("seek error", errno);
+
     return l - _offset;
 }
 
@@ -167,10 +171,12 @@ void FileBase::set_extent(upx_off_t offset, upx_off_t length) {
     _length = length;
 }
 
-upx_off_t FileBase::st_size() const { return _length; }
+upx_off_t FileBase::st_size() const {
+    return _length;
+}
 
 /*************************************************************************
-// InputFile
+// InputFile class
 **************************************************************************/
 
 void InputFile::sopen(const char *name, int flags, int shflags) {
@@ -181,6 +187,7 @@ void InputFile::sopen(const char *name, int flags, int shflags) {
     _mode = 0;
     _offset = 0;
     _length = 0;
+
     if (!super::do_sopen()) {
         if (errno == ENOENT)
             throw FileNotFoundException(_name, errno);
@@ -189,13 +196,15 @@ void InputFile::sopen(const char *name, int flags, int shflags) {
         else
             throwIOException(_name, errno);
     }
+
     _length_orig = _length;
 }
 
 int InputFile::read(SPAN_P(void) buf, upx_int64_t blen) {
     if (!isOpen() || blen < 0)
         throwIOException("bad read");
-    int len = (int) mem_size(1, blen); // sanity check
+
+    int len = (int) mem_size(1, blen);
     errno = 0;
     long l = acc_safe_hread(_fd, raw_bytes(buf, len), len);
     if (errno)
@@ -217,24 +226,29 @@ upx_off_t InputFile::seek(upx_off_t off, int whence) {
     return pos;
 }
 
-upx_off_t InputFile::st_size_orig() const { return _length_orig; }
+upx_off_t InputFile::st_size_orig() const {
+    return _length_orig;
+}
 
 int InputFile::dupFd() may_throw {
     if (!isOpen())
         throwIOException("bad dup");
+
 #if defined(HAVE_DUP) && (HAVE_DUP + 0 == 0)
     errno = ENOSYS;
     int r = -1;
 #else
     int r = ::dup(getFd());
 #endif
+
     if (r < 0)
         throwIOException("dup", errno);
+
     return r;
 }
 
 /*************************************************************************
-// OutputFile
+// OutputFile class
 **************************************************************************/
 
 void OutputFile::sopen(const char *name, int flags, int shflags, int mode) {
@@ -245,12 +259,11 @@ void OutputFile::sopen(const char *name, int flags, int shflags, int mode) {
     _mode = mode;
     _offset = 0;
     _length = 0;
+
     if (!super::do_sopen()) {
 #if 0
-        // don't throw FileNotFound here -- this is confusing
         if (errno == ENOENT)
-            throw FileNotFoundException(_name,errno);
-        else
+            throw FileNotFoundException(_name, errno);
 #endif
         if (errno == EEXIST)
             throw FileAlreadyExistsException(_name, errno);
@@ -264,14 +277,17 @@ bool OutputFile::openStdout(int flags, bool force) {
     int fd = STDOUT_FILENO;
     if (!force && acc_isatty(fd))
         return false;
+
     _name = "<stdout>";
     _flags = flags;
     _shflags = -1;
     _mode = 0;
     _offset = 0;
     _length = 0;
+
     if (flags && acc_set_binmode(fd, 1) == -1)
         throwIOException(_name, errno);
+
     _fd = fd;
     return true;
 }
@@ -279,36 +295,30 @@ bool OutputFile::openStdout(int flags, bool force) {
 void OutputFile::write(SPAN_0(const void) buf, upx_int64_t blen) {
     if (!isOpen() || blen < 0)
         throwIOException("bad write");
-    // allow nullptr if blen == 0
+
     if (blen == 0)
         return;
-    int len = (int) mem_size(1, blen); // sanity check
+
+    int len = (int) mem_size(1, blen);
     errno = 0;
+
 #if WITH_XSPAN >= 2
-    NO_fprintf(stderr, "write %p %zd (%p) %d\n", buf.raw_ptr(), buf.raw_size_in_bytes(),
+    NO_fprintf(stderr, "write %p %zd (%p) %d\n",
+               buf.raw_ptr(), buf.raw_size_in_bytes(),
                buf.raw_base(), len);
 #endif
+
     long l = acc_safe_hwrite(_fd, raw_bytes(buf, len), len);
     if (l != len)
         throwIOException("write error", errno);
+
     bytes_written += len;
-#if TESTING && 0
-    static upx_std_atomic(bool) dumping;
-    if (!dumping) {
-        dumping = true;
-        char fn[64];
-        static int part = 0;
-        snprintf(fn, sizeof(fn), "upx-dump-%04d.data", part++);
-        OutputFile::dump(fn, buf, len);
-        dumping = false;
-    }
-#endif
 }
 
 upx_off_t OutputFile::st_size() const {
-    if (opt->to_stdout) {     // might be a pipe ==> .st_size is invalid
-        return bytes_written; // too big if seek()+write() instead of rewrite()
-    }
+    if (opt->to_stdout)
+        return bytes_written;
+
     struct stat my_st;
     my_st.st_size = 0;
     if (::fstat(_fd, &my_st) != 0)
@@ -319,40 +329,34 @@ upx_off_t OutputFile::st_size() const {
 void OutputFile::rewrite(SPAN_P(const void) buf, int len) {
     assert(!opt->to_stdout);
     write(buf, len);
-    bytes_written -= len; // restore
+    bytes_written -= len;
 }
 
 upx_off_t OutputFile::seek(upx_off_t off, int whence) {
-    if (!mem_size_valid_bytes(off >= 0 ? off : -off)) // sanity check
+    if (!mem_size_valid_bytes(off >= 0 ? off : -off))
         throwIOException("bad seek");
+
     assert(!opt->to_stdout);
+
     switch (whence) {
     case SEEK_SET:
         if (bytes_written < off)
             bytes_written = off;
-        _length = bytes_written; // cheap, lazy update; needed?
+        _length = bytes_written;
         break;
     case SEEK_END:
-        _length = bytes_written; // necessary
+        _length = bytes_written;
         break;
     }
+
     return super::seek(off, whence);
 }
-
-// WARNING: fsync() does not exist in some Windows environments.
-// This trick works only on UNIX-like systems.
-// int OutputFile::read(void *buf, int len) {
-//    fsync(_fd);
-//    InputFile infile;
-//    infile.open(this->getName(), O_RDONLY | O_BINARY);
-//    infile.seek(this->tell(), SEEK_SET);
-//    return infile.read(buf, len);
-//}
 
 void OutputFile::set_extent(upx_off_t offset, upx_off_t length) {
     super::set_extent(offset, length);
     bytes_written = 0;
-    if (0 == offset && 0xffffffffLL == length) { // TODO: check all callers of this method
+
+    if (offset == 0 && length == 0xffffffffLL) {
         st.st_size = 0;
         if (::fstat(_fd, &st) != 0)
             throwIOException(_name, errno);
@@ -370,10 +374,11 @@ upx_off_t OutputFile::unset_extent() {
     return _length;
 }
 
-/*static*/ void OutputFile::dump(const char *name, SPAN_P(const void) buf, int len, int flags) {
+void OutputFile::dump(const char *name, SPAN_P(const void) buf, int len, int flags) {
     if (flags < 0)
         flags = O_CREAT | O_TRUNC;
     flags |= O_WRONLY | O_BINARY;
+
     OutputFile f;
     f.open(name, flags, 0600);
     f.write(raw_bytes(buf, len), len);
@@ -381,7 +386,7 @@ upx_off_t OutputFile::unset_extent() {
 }
 
 /*************************************************************************
-//
+// Test case
 **************************************************************************/
 
 TEST_CASE("file") {
@@ -389,6 +394,7 @@ TEST_CASE("file") {
     CHECK(!fi.isOpen());
     CHECK(fi.getFd() == -1);
     CHECK(fi.st_size() == 0);
+
     OutputFile fo;
     CHECK(!fo.isOpen());
     CHECK(fo.getFd() == -1);
