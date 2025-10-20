@@ -39,7 +39,7 @@ jobs:
           dpkg --add-architecture i386
           apt-get update && apt-get upgrade -y
           # install system packages
-          apt-get install -y --no-install-recommends bash ca-certificates curl git libmpc3 make perl-base python3-minimal tar time xz-utils libc6:i386 zlib1g:i386
+          apt-get install -y --no-install-recommends bash ca-certificates curl git libmpc3 make perl-base python2 python2-minimal python3-minimal tar time xz-utils libc6:i386 zlib1g:i386
           mkdir ../deps; cd ../deps; mkdir packages
           ### install python2-minimal packages from Debian-11
           ## curl -sS -L -O https://ftp.debian.org/debian/pool/main/p/python2.7/libpython2.7-minimal_2.7.18-8+deb11u1_amd64.deb
@@ -53,6 +53,8 @@ jobs:
           rm -rf ./*.deb ./packages && ldconfig
           # install upx-stubtools
           curl -sS -L https://github.com/upx/upx-stubtools/releases/download/v20221212/bin-upx-20221212.tar.xz | tar -xJ
+          # Verify Python 2 is available
+          python2 --version || (echo "Python 2 not available" && exit 1)
       - name: Check out code
         run: |
           git config --global --add safe.directory '*' # needed when running in a container
